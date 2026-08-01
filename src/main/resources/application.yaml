@@ -1,3 +1,49 @@
 spring:
   application:
     name: prova-corrida
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=prova_corrida
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update # create | create-drop | update | validate | none
+
+    show-sql: true
+
+    properties:
+      hibernate:
+        default_schema: prova_corrida
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  sql:
+    init:
+      mode: never # always para executar schema.sql/data.sql
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+server:
+  port: 8080
+
+management:
+  server:
+    port: 8081
+
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: always

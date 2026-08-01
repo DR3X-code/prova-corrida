@@ -37,4 +37,20 @@ Vou começar as Criações seguindo o raciocinio de atuadores e ações, e depoi
 Antes de iniciar as criações eu tive outra ideia,tratar sistema com Pessoa/Cliente, e utilizar de dar permissão para determinado user para classificar como ORGANIZADOR OU CORREDOR não tenho certeza se
 vou acrescentar isso e colocar uma complexidade desnecessaria, mas vou deixar registrado aqui para não esquecer, e caso eu ache que seja necessário eu posso acrescentar isso no desenvolvimento do sistema.
 
+Estruturando colocando todos os packages,baseado projetos anteriores
+tenten fazer um fluxo mais conscistente porem ainda tenho dificuldade de organizar os packges,e tambem a ordem de desenvolver cada package
 
+bom acho que fiz a base da fase 01 onde criei os serviços
+
+*cadastrarCorrida
+*buscarTodasCorridas
+*alterarStatusCorrida
+*buscarCorridaPorId
+*atualizarCorrida
+*alterarStatusCorrida
+*deletarCorrida
+
+vou pensar em regra para colocar para completar os requisitos do sistema
+//todo: criar sistema para validar regra da criação da corrida
+//todo: Apos criar a corrida, criar sistema para inscrição
+17:20 pausa
