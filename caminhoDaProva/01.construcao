@@ -1,0 +1,40 @@
+    Essa é a pasta que vai mostrar como cheguei as respostas ate o fim do desenvvimento do projeto.
+o Sistema vai ser desenvolvido para atender as necessidade do arquivo sistema-corridas-rua.md o caminho para o arquivo é:
+    * caminhoDaProva/01.construcao/sistema-corridas-rua.md
+Vou tentar seguir com a linha de raciocinio do seguinte modo:
+    * atuadores: me refiro a o objeto,ao modelo, ao ser
+    * ações: me refiro a aquilo que vai se alterar,vai fazer algo
+    como verbo(ações) e sujeito(atuadores) na lingua portuguesa
+
+FASE 01
+
+Jornada 1: Cadastro de Prova
+Organizador cadastrou corrida
+↓
+Organizador informou distância, data e local
+↓
+Sistema validou dados obrigatórios
+↓
+Prova foi publicada
+↓
+Inscrições foram abertas
+
+    Vendo a jornada um visualizo o ORGANIZADOR,que pode CADASTRAR CORRIDA,dentro da corrida deve ter DISTÂNCIA, DATA e LOCAL
+    tera que ter um sistema que VALIDE os dados obrigatórios,
+        depois de validado o sistema deve PUBLICAR a corrida e ABRIR as inscrições.
+
+    logo vendo dessa perspectiva tenho Atuadores: ORGANIZADOR, CORRIDA
+    Ações: CADASTRAR, INFORMAR, VALIDAR, PUBLICAR, ABRIR
+
+após essas escritas realizei a criação de fluxograma,contemplando a primeira jornada
+    Primeira coisa que noto, é que durante esse fluxo noto que o ORGANIZADOR é o principal atuador, e inicialmente não vejo a necessidade
+de Criar o organizador como um objeto,pois ele é apenas um usuário do sistema, e o que ele faz é CADASTRAR CORRIDA,então o objeto principal é a CORRIDA, e o ORGANIZADOR é apenas um usuário que vai interagir com o sistema para criar a corrida.
+
+Caminho para o fluxograma: caminhoDaProva/01.construcao/fluxograma-jornada-1.png
+
+Vou começar as Criações seguindo o raciocinio de atuadores e ações, e depois vou criar os objetos que vão ser necessários para o desenvolvimento do sistema.
+
+Antes de iniciar as criações eu tive outra ideia,tratar sistema com Pessoa/Cliente, e utilizar de dar permissão para determinado user para classificar como ORGANIZADOR OU CORREDOR não tenho certeza se
+vou acrescentar isso e colocar uma complexidade desnecessaria, mas vou deixar registrado aqui para não esquecer, e caso eu ache que seja necessário eu posso acrescentar isso no desenvolvimento do sistema.
+
+
