@@ -38,7 +38,7 @@ Antes de iniciar as criações eu tive outra ideia,tratar sistema com Pessoa/Cli
 vou acrescentar isso e colocar uma complexidade desnecessaria, mas vou deixar registrado aqui para não esquecer, e caso eu ache que seja necessário eu posso acrescentar isso no desenvolvimento do sistema.
 
 Estruturando colocando todos os packages,baseado projetos anteriores
-tenten fazer um fluxo mais conscistente porem ainda tenho dificuldade de organizar os packges,e tambem a ordem de desenvolver cada package
+tenten fazer um fluxo mais consistente porem ainda tenho dificuldade de organizar os packges,e tambem a ordem de desenvolver cada package
 
 bom acho que fiz a base da fase 01 onde criei os serviços
 
@@ -54,3 +54,30 @@ vou pensar em regra para colocar para completar os requisitos do sistema
 //todo: criar sistema para validar regra da criação da corrida
 //todo: Apos criar a corrida, criar sistema para inscrição
 17:20 pausa
+DOM
+Como nao especificou nenhuma regra de validação no arquivo sistema-corridas pensei em algumas
+    *nome obrigatório
+    *distância maior que zero
+    *data obrigatória
+    *local obrigatório
+    *não permitir corrida duplicada, se essa for uma regra desejada
+
+então como fiz no fluxograma o processo de validação ocorria no cadastro do fluxo não na requisição entao implementei as regras no request
+bom após colocar as regra no fim da estrutura tem o seguinte:
+    Inscrições foram abertas
+
+Então antes de finalizar a primeira fase, vou criar o sistema de inscrição e visualizei como uma entidade separada,pelo motivo
+    de ter um usuario gerando ela,então criei a DTO,segui para entidade por conta que vou precisar manter os dados salvos
+   do cliente e como o sistema diz:
+        Prova foi publicada
+        ↓
+        Inscrições foram abertas
+   Logo entendo que após a prova for publicada ele deve abrir a possibilidade de inscrição
+
+agora foi finalizado tive uma dificuldade para criar uma validação com a tabela de corrida, pois não sabia como fazer para validar se a corrida ja existe
+e no final estava fazendo algumas formas de retorno desnecessarias, e acabei removendo algumas delas
+
+
+a fase 01 foi realizada Dom 16:39, vou seguir para segunda fase,acho que isso atende tudo que foi pedido talvez a inscrição esteja um pouco a mais
+porem gosto da forma que fiz e esta facil para caso precise evoluir
+

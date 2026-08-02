@@ -11,4 +11,6 @@ public interface CorridaRepository extends JpaRepository<CorridaEntity, Long> {
 
     Optional<CorridaEntity> findByNomeEvento(String nomeEvento);
     List<CorridaEntity> findAllByStatus(StatusEnum status);
+
+    boolean existsByNomeEvento(String nomeEvento);
 }

@@ -1,8 +1,8 @@
 package com.github.dr3xcode.provacorrida.mapper;
 
 
-import com.github.dr3xcode.provacorrida.dto.CorridaRequest;
-import com.github.dr3xcode.provacorrida.dto.CorridaResponse;
+import com.github.dr3xcode.provacorrida.dto.corrida.CorridaRequest;
+import com.github.dr3xcode.provacorrida.dto.corrida.CorridaResponse;
 import com.github.dr3xcode.provacorrida.entity.CorridaEntity;
 import org.mapstruct.Mapper;
 

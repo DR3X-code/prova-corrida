@@ -1,4 +1,4 @@
-package com.github.dr3xcode.provacorrida.dto;
+package com.github.dr3xcode.provacorrida.dto.corrida;
 
 import com.github.dr3xcode.provacorrida.enums.StatusEnum;
 

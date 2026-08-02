@@ -1,9 +1,8 @@
 package com.github.dr3xcode.provacorrida.controller;
 
-import com.github.dr3xcode.provacorrida.dto.CorridaRequest;
-import com.github.dr3xcode.provacorrida.dto.CorridaResponse;
+import com.github.dr3xcode.provacorrida.dto.corrida.CorridaRequest;
+import com.github.dr3xcode.provacorrida.dto.corrida.CorridaResponse;
 import com.github.dr3xcode.provacorrida.entity.CorridaEntity;
-import com.github.dr3xcode.provacorrida.enums.StatusEnum;
 import com.github.dr3xcode.provacorrida.service.CorridaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

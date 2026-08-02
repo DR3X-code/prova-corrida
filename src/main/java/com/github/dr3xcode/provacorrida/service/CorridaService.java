@@ -1,7 +1,7 @@
 package com.github.dr3xcode.provacorrida.service;
 
-import com.github.dr3xcode.provacorrida.dto.CorridaRequest;
-import com.github.dr3xcode.provacorrida.dto.CorridaResponse;
+import com.github.dr3xcode.provacorrida.dto.corrida.CorridaRequest;
+import com.github.dr3xcode.provacorrida.dto.corrida.CorridaResponse;
 import com.github.dr3xcode.provacorrida.entity.CorridaEntity;
 import com.github.dr3xcode.provacorrida.enums.StatusEnum;
 import com.github.dr3xcode.provacorrida.mapper.CorridaMapper;
@@ -27,6 +27,7 @@ public class CorridaService {
 
     @Transactional
     public CorridaResponse cadastrarCorrida(CorridaRequest corridaRequest) {
+        validarNomeCorrida(corridaRequest.nomeEvento());
         CorridaEntity corridaEntity = corridaMapper.toEntity(corridaRequest);
         corridaEntity.setStatus(StatusEnum.ATIVO);
         CorridaEntity corridaSalva = corridaRepository.save(corridaEntity);
@@ -81,4 +82,14 @@ public class CorridaService {
     public void deletarCorrida(Long id) {corridaRepository.deleteById(id);    }
 
 
+    //regra
+    private void validarNomeCorrida(String nomeEvento) {
+
+        boolean corridaJaExiste =
+                corridaRepository.existsByNomeEvento(nomeEvento);
+
+        if (corridaJaExiste) {
+            throw new RuntimeException("Já existe uma corrida com esse nome.");
+        }
+    }
 }
