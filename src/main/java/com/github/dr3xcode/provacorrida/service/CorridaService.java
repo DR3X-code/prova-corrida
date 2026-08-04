@@ -1,17 +1,20 @@
 package com.github.dr3xcode.provacorrida.service;
 
 import com.github.dr3xcode.provacorrida.dto.corrida.CorridaRequest;
-import com.github.dr3xcode.provacorrida.dto.corrida.CorridaResponse;
+import com.github.dr3xcode.provacorrida.dto.corrida.RankingResponse;
 import com.github.dr3xcode.provacorrida.entity.CorridaEntity;
-import com.github.dr3xcode.provacorrida.enums.StatusEnum;
+import com.github.dr3xcode.provacorrida.enums.DistanciaEnum;
 import com.github.dr3xcode.provacorrida.mapper.CorridaMapper;
 import com.github.dr3xcode.provacorrida.repository.CorridaRepository;
+import com.github.dr3xcode.provacorrida.repository.InscricaoRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class CorridaService {
 
@@ -19,77 +22,33 @@ public class CorridaService {
     private final CorridaRepository corridaRepository;
 
 
-    public CorridaService(CorridaMapper corridaMapper, CorridaRepository corridaRepository) {
-        this.corridaMapper = corridaMapper;
-        this.corridaRepository = corridaRepository;
-    }
-
 
     @Transactional
-    public CorridaResponse cadastrarCorrida(CorridaRequest corridaRequest) {
-        validarNomeCorrida(corridaRequest.nomeEvento());
+    public void cadastrarCorrida(CorridaRequest corridaRequest) {
         CorridaEntity corridaEntity = corridaMapper.toEntity(corridaRequest);
-        corridaEntity.setStatus(StatusEnum.ATIVO);
-        CorridaEntity corridaSalva = corridaRepository.save(corridaEntity);
-        return corridaMapper.toResponse(corridaSalva);
-    }
-
-    public List<CorridaResponse> buscarTodasCorridas() {
-
-        List<CorridaEntity> corridaEntityList =
-                corridaRepository.findAll();
-
-        return corridaMapper.toResponseList(corridaEntityList);
-    }
-
-    public CorridaResponse buscarCorridaPorId(Long id) {
-
-        CorridaEntity corridaEntity = corridaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Corrida não encontrada"));
-
-        return corridaMapper.toResponse(corridaEntity);
-    }
-
-    @Transactional
-    public CorridaEntity atualizarCorrida(Long id, CorridaRequest corridaRequest) {
-        CorridaEntity corridaExistente = corridaRepository.findById(id).orElse(null);
-        if (corridaExistente != null) {
-            corridaExistente.setNomeEvento(corridaRequest.nomeEvento());
-            corridaExistente.setData(corridaRequest.data());
-            corridaExistente.setLocal(corridaRequest.local());
-            corridaExistente.setDtAtualizacao(Instant.now());
-            return corridaRepository.save(corridaExistente);
+        try {
+            corridaRepository.save(corridaEntity);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao cadastrar corrida", e);
         }
-        return corridaExistente;
+
     }
 
-    @Transactional
-    public CorridaResponse alterarStatusCorrida(Long id) {
+    public List<RankingResponse> getRanking(Long idCorrida, DistanciaEnum distancia) {
+        CorridaEntity corridaEntity = corridaRepository.findByIdAndDistancia(idCorrida, distancia).orElseThrow(() -> new RuntimeException("Corrida não encontrada"));
 
-        CorridaEntity corridaEntity = corridaRepository.findById(id).orElseThrow(() -> new RuntimeException("Corrida não encontrada"));
-
-        if (corridaEntity.getStatus() == StatusEnum.ATIVO) {
-            corridaEntity.setStatus(StatusEnum.INATIVO);
-        } else {
-            corridaEntity.setStatus(StatusEnum.ATIVO);
-        }
-        corridaEntity.setDtAtualizacao(Instant.now());
-        CorridaEntity corridaAtualizada = corridaRepository.save(corridaEntity);
-        return corridaMapper.toResponse(corridaAtualizada);
+        return corridaEntity.getInscricoes().stream()
+                .sorted((i1, i2) -> i1.getDtTermino().compareTo(i2.getDtTermino()))
+                .map(inscricao -> new RankingResponse(
+                        inscricao.getId(),
+                        inscricao.getNome(),
+                        distancia,
+                        String.valueOf(getTempo(corridaEntity.getData(), inscricao.getDtTermino()))
+                ))
+                .toList();
     }
 
-    @Transactional
-    public void deletarCorrida(Long id) {corridaRepository.deleteById(id);    }
-
-
-    //regra
-    private void validarNomeCorrida(String nomeEvento) {
-
-        boolean corridaJaExiste =
-                corridaRepository.existsByNomeEvento(nomeEvento);
-
-        if (corridaJaExiste) {
-            throw new RuntimeException("Já existe uma corrida com esse nome.");
-        }
+    private double getTempo(Instant dtInicio, Instant dtFim){
+        return dtFim.toEpochMilli() - dtInicio.toEpochMilli();
     }
 }

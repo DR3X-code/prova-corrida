@@ -1,15 +1,17 @@
 package com.github.dr3xcode.provacorrida.dto.corrida;
 
+import com.github.dr3xcode.provacorrida.enums.DistanciaEnum;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.Instant;
 
 public record CorridaRequest(
-        @NotBlank(message = "O nome do evento é obrigatório")
-        String nomeEvento,
-        @Positive(message = "A distância deve ser um valor positivo")
-        double distancia,
-        @NotBlank(message = "A data é obrigatória")
-        String data,
+
+        @NotNull(message = "A distância obrigatório")
+        DistanciaEnum distancia,
+        @NotNull(message = "A data é obrigatória")
+        Instant data,
         @NotBlank(message = "O local é obrigatório")
         String local
 ) {

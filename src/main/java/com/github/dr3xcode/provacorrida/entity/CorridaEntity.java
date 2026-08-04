@@ -1,9 +1,12 @@
 package com.github.dr3xcode.provacorrida.entity;
 
-import com.github.dr3xcode.provacorrida.enums.StatusEnum;
+import com.github.dr3xcode.provacorrida.enums.DistanciaEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.Instant;
+import java.util.List;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -12,19 +15,19 @@ import lombok.EqualsAndHashCode;
 @Table(name = "corridas")
 public class CorridaEntity extends AuditDataEntity {
 
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String nomeEvento;
+    private DistanciaEnum distancia;
 
     @Column(nullable = false)
-    private Double distancia;
-
-    @Column(nullable = false)
-    private String data;
+    private Instant data;
 
     @Column(nullable = false)
     private String local;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    StatusEnum status;
+    @OneToMany(mappedBy = "corrida", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InscricaoEntity> inscricoes;
+
+
 }

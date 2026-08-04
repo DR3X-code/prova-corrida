@@ -1,0 +1,11 @@
+fase 02
+
+numero do peito pode ser somente o ID ja que não vai se repetir, ou algum codigo id+3PrimeiroDigitoDoCpf
+categoria havia pensando em fazer por KM porem o KM não ta com enum,então eu faria uma validação de idade
+    *Juvenil:0-17
+    *Adulto:18-59
+    *Senior:60+
+A categoria não vai ser informada pelo usuario,ela vai ser calculada pelo sistema
+
+Apos validar deve criar o valor de inscrição então isso é um processo no banco de acordo com fluxograma
+

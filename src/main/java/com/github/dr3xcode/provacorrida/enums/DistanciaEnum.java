@@ -1,6 +1,6 @@
 package com.github.dr3xcode.provacorrida.enums;
 
-public enum StatusEnum {
-    ATIVO,
-    INATIVO
+public enum DistanciaEnum {
+    CINCO_KM,DEZ_KM
+
 }
