@@ -3,6 +3,8 @@ package com.github.dr3xcode.provacorrida.service;
 import com.github.dr3xcode.provacorrida.dto.corrida.InscricaoRequest;
 import com.github.dr3xcode.provacorrida.dto.corrida.InscricaoResponse;
 import com.github.dr3xcode.provacorrida.entity.InscricaoEntity;
+import com.github.dr3xcode.provacorrida.exceptions.BusinessException;
+import com.github.dr3xcode.provacorrida.exceptions.NotFoundException;
 import com.github.dr3xcode.provacorrida.mapper.InscricaoMapper;
 import com.github.dr3xcode.provacorrida.repository.InscricaoRepository;
 import jakarta.transaction.Transactional;
@@ -26,41 +28,38 @@ public class InscricaoService {
             inscricaoRepository.save(inscricaoEntity);
             return inscricaoEntity.getId();
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao cadastrar inscrição", e);
+            throw new NotFoundException("Erro ao cadastrar inscrição");
         }
 
     }
 
     public InscricaoResponse consultarPorCpf(String cpf) {
-        InscricaoEntity inscricaoEntity = inscricaoRepository.findByCpf(cpf).orElseThrow(() -> new RuntimeException("Inscrição não encontrada para o CPF: " + cpf));
-        return inscricaoMapper.toResponse(inscricaoEntity);
-
-    }
+        InscricaoEntity inscricaoEntity = inscricaoRepository.findByCpf(cpf).orElseThrow(() -> new NotFoundException("Inscrição não encontrada para o CPF: " + cpf));return inscricaoMapper.toResponse(inscricaoEntity);}
 
     public InscricaoResponse consultarPorInscricao(Long inscricao) {
-        InscricaoEntity inscricaoEntity = inscricaoRepository.findById(inscricao).orElseThrow(() -> new RuntimeException("Inscrição não encontrada para o ID: " + inscricao));
+        InscricaoEntity inscricaoEntity = inscricaoRepository.findById(inscricao).orElseThrow(() -> new NotFoundException("Inscrição não encontrada para o ID: " + inscricao));
         return inscricaoMapper.toResponse(inscricaoEntity);
     }
 
     @Transactional
     public void efetuarPagamento(Long inscricao) {
-        InscricaoEntity inscricaoEntity = inscricaoRepository.findById(inscricao).orElseThrow(() -> new RuntimeException("Inscrição não encontrada para o ID: " + inscricao));
+        InscricaoEntity inscricaoEntity = inscricaoRepository.findById(inscricao).orElseThrow(() -> new NotFoundException("Inscrição não encontrada para o ID: " + inscricao));
         inscricaoEntity.setPagamento(true);
         try {
             inscricaoRepository.save(inscricaoEntity);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao efetuar pagamento", e);
+            throw new BusinessException("Erro ao efetuar pagamento");
         }
     }
 
     @Transactional
     public void checkout(Long inscricao) {
-        InscricaoEntity inscricaoEntity = inscricaoRepository.findById(inscricao).orElseThrow(() -> new RuntimeException("Inscrição não encontrada para o ID: " + inscricao));
+        InscricaoEntity inscricaoEntity = inscricaoRepository.findById(inscricao).orElseThrow(() -> new NotFoundException("Inscrição não encontrada para o ID: " + inscricao));
         inscricaoEntity.setDtTermino(Instant.now());
         try {
             inscricaoRepository.save(inscricaoEntity);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao efetuar checkout", e);
+            throw new BusinessException("Erro ao efetuar checkout");
         }
     }
 }

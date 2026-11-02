@@ -1,4 +1,7 @@
 spring:
+  jackson:
+    default-property-inclusion: NON_NULL
+
   application:
     name: prova-corrida
 
@@ -26,24 +29,41 @@ spring:
       mode: never # always para executar schema.sql/data.sql
 
 logging:
+  file:
+    name: logs/prova-corrida.log
+
   level:
     root: INFO
     org.springframework.web: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+    com.github.dr3xcode.provacorrida: INFO
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
+
+  structured:
+    format:
+      file: logstash
 
 server:
   port: 8080
 
 management:
-  server:
-    port: 8081
-
+  #server:
+   # port: 8081
   endpoints:
     web:
       exposure:
-        include: health,info
-
+        include: health,info,prometheus,metrics
   endpoint:
     health:
       show-details: always
+  metrics:
+    tags:
+      application: prova-corrida
+  opentelemetry:
+    logging:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/logs
